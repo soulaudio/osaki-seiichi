@@ -1,0 +1,74 @@
+.container {
+  position: relative;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+}
+
+.contentContainer {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+}
+
+.grainOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+  overflow: hidden;
+}
+
+.grainTexture {
+  position: absolute;
+  top: -400%;
+  left: -400%;
+  right: -400%;
+  bottom: -400%;
+  width: 800%;
+  height: 800%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='discrete' tableValues='0 1'/%3E%3CfeFuncG type='discrete' tableValues='0 1'/%3E%3CfeFuncB type='discrete' tableValues='0 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  filter: contrast(500%) brightness(100%);
+  animation: circularMotion 2000s linear infinite;
+  opacity: 0.9;
+}
+
+@keyframes circularMotion {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(1%, 1%) rotate(90deg);
+  }
+  50% {
+    transform: translate(0, 2%) rotate(180deg);
+  }
+  75% {
+    transform: translate(-1%, 1%) rotate(270deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+}
+
+
+.transitionSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.transitionSection .contentContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}

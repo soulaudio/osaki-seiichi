@@ -1,0 +1,92 @@
+.container {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  padding-top: 26vh;
+}
+
+.coverContainer {
+  position: relative;
+  width: 100%;
+
+  height: 160px;
+  margin-bottom: 5vh;
+}
+
+.coverWrapper {
+  position: absolute;
+  left: 30%;
+
+  height: 160px;
+  width: 160px;
+  background-color: #54a5c4;
+}
+
+.creatureContainer {
+  position: relative;
+  width: 100%;
+  height: 100px;
+
+  margin-bottom: 5vh;
+}
+
+.creatureWrapper {
+  position: absolute;
+  display: block;
+  height: 100px;
+  position: absolute;
+  right: -45px;
+  top: 50%;
+  width: 100px;
+}
+
+.creature {
+  height: 100px;
+  animation: wiggle 18s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-100deg);
+  }
+  75% {
+    transform: rotate(-50deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.eerieTextContainer {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  margin-bottom: 12vh;
+
+  color: #102127;
+  font-family: "Courier Prime", monospace;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.eerieText {
+  font-family: "Special Elite", system-ui !important;
+  position: absolute;
+  right: 20%;
+}
+
+@media (max-width: 700px) {
+  .eerieTextContainer {
+    margin-bottom: 6vh;
+  }
+  
+  .eerieText { 
+    right: unset;
+    left: 5%;
+  }
+}

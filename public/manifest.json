@@ -1,0 +1,30 @@
+{
+  "short_name": "Osaki Seiichi",
+  "name": "Osaki Seiichi",
+  "icons": [
+    {
+      "src": "favicon32.ico",
+      "sizes": "32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "favicon96.ico",
+      "sizes": "96x96 64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "favicon144.ico",
+      "sizes": "144x144 112x112 96x96 64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "favicon155.ico",
+      "sizes": "155x155 144x144 112x112 96x96 64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

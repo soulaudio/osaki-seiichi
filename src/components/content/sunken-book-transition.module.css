@@ -1,0 +1,36 @@
+.transitionTextContainer {
+  position: relative;
+  width: 100%;
+  color: #102127;
+  
+  font-size: 18px;
+  line-height: 20px;
+
+  mask: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.7) 30%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.0) 100%
+  );
+
+  max-width: 500px;
+  margin-left: 20%;
+}
+
+.transitionText {
+  font-family: "Special Elite", system-ui !important;
+}
+
+@media (max-width: 700px) {
+  .transitionTextContainer {
+    max-width: 340px;
+    margin-left: 5%;
+  }
+}
+
+@media (max-width: 400px) {
+  .transitionTextContainer {
+    max-width: 290px;
+  }
+}
