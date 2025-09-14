@@ -1,81 +1,81 @@
 import BackIcon from "../../components/back-icon";
 import styles from "./lost-book-detail.module.css";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
+
+const CONFIG = {
+  BUSH_SOURCES: [
+    "media/sunken-city-alga.png"
+    // Add more sources here as needed:
+    // "media/bush-variant-2.png",
+    // "media/bush-variant-3.png",
+    // "media/bush-variant-4.png"
+  ],
+  
+  // Bush density per screen size (bushes per 1000px of perimeter)
+  DENSITY: {
+    mobile: 1.8,      // More bushes on mobile
+    tablet: 1.6,      // More bushes on tablet
+    desktop: 1.4,     // More bushes on desktop
+    large: 1.2,       // Balanced on large screens
+    ultrawide: 1.0    // Appropriate for ultra-wide
+  },
+  
+  // Bush count ranges
+  BUSH_COUNT: {
+    mobile: { min: 35, max: 35 },
+    tablet: { min: 35, max: 45 },
+    desktop: { min: 35, max: 60 },
+    large: { min: 45, max: 80 },
+    ultrawide: { min: 60, max: 100 }
+  },
+  
+  // Base bush sizes
+  BASE_SIZE: {
+    mobile: 100,
+    tablet: 130,
+    desktop: 180,
+    large: 180,
+    ultrawide: 200
+  },
+  
+  // Size variation (±pixels)
+  SIZE_VARIATION: 40,
+  
+  // Offset from screen edge (how hidden they are)
+  OFFSET: {
+    mobile: 35,
+    tablet: 40,
+    desktop: 50,
+    large: 55,
+    ultrawide: 60
+  },
+  
+  // Animation settings
+  ANIMATION: {
+    fadeInDuration: 0.8,
+    // Wiggle animation randomization ranges
+    wiggle: {
+      durationMin: 6,     // Minimum wiggle duration (seconds)
+      durationMax: 12,    // Maximum wiggle duration (seconds)
+      amountMin: 1,       // Minimum wiggle amount (degrees)
+      amountMax: 4,       // Maximum wiggle amount (degrees)
+    }
+  },
+  
+  // Screen breakpoints
+  BREAKPOINTS: {
+    mobile: 480,
+    tablet: 768,
+    desktop: 1200,
+    large: 1920
+  }
+} as const;
 
 const LostBookDetail = () => {
   const navigate = useNavigate();
   const handleBack = () => {
     navigate("/");
-  };
-
-  const CONFIG = {
-    BUSH_SOURCES: [
-      "media/sunken-city-alga.png"
-      // Add more sources here as needed:
-      // "media/bush-variant-2.png",
-      // "media/bush-variant-3.png",
-      // "media/bush-variant-4.png"
-    ],
-    
-    // Bush density per screen size (bushes per 1000px of perimeter)
-    DENSITY: {
-      mobile: 1.8,      // More bushes on mobile
-      tablet: 1.6,      // More bushes on tablet
-      desktop: 1.4,     // More bushes on desktop
-      large: 1.2,       // Balanced on large screens
-      ultrawide: 1.0    // Appropriate for ultra-wide
-    },
-    
-    // Bush count ranges
-    BUSH_COUNT: {
-      mobile: { min: 35, max: 35 },
-      tablet: { min: 35, max: 45 },
-      desktop: { min: 35, max: 60 },
-      large: { min: 45, max: 80 },
-      ultrawide: { min: 60, max: 100 }
-    },
-    
-    // Base bush sizes
-    BASE_SIZE: {
-      mobile: 100,
-      tablet: 130,
-      desktop: 180,
-      large: 180,
-      ultrawide: 200
-    },
-    
-    // Size variation (±pixels)
-    SIZE_VARIATION: 40,
-    
-    // Offset from screen edge (how hidden they are)
-    OFFSET: {
-      mobile: 35,
-      tablet: 40,
-      desktop: 50,
-      large: 55,
-      ultrawide: 60
-    },
-    
-    // Animation settings
-    ANIMATION: {
-      fadeInDuration: 0.8,
-      // Wiggle animation randomization ranges
-      wiggle: {
-        durationMin: 6,     // Minimum wiggle duration (seconds)
-        durationMax: 12,    // Maximum wiggle duration (seconds)
-        amountMin: 1,       // Minimum wiggle amount (degrees)
-        amountMax: 4,       // Maximum wiggle amount (degrees)
-      }
-    },
-    
-    // Screen breakpoints
-    BREAKPOINTS: {
-      mobile: 480,
-      tablet: 768,
-      desktop: 1200,
-      large: 1920
-    }
   };
 
   // State
@@ -87,16 +87,16 @@ const LostBookDetail = () => {
   });
 
   // Get current screen category
-  const getScreenCategory = (width: number) => {
+  const getScreenCategory = useCallback((width: number) => {
     if (width < CONFIG.BREAKPOINTS.mobile) return 'mobile';
     if (width < CONFIG.BREAKPOINTS.tablet) return 'tablet';
     if (width < CONFIG.BREAKPOINTS.desktop) return 'desktop';
     if (width < CONFIG.BREAKPOINTS.large) return 'large';
     return 'ultrawide';
-  };
+  }, []);
 
   // Calculate bush count based on screen proportions
-  const calculateBushCount = (width: number, height: number) => {
+  const calculateBushCount = useCallback((width: number, height: number) => {
     const category = getScreenCategory(width);
     
     // Calculate perimeter proportionally
@@ -111,21 +111,21 @@ const LostBookDetail = () => {
     // Apply min/max constraints
     const range = CONFIG.BUSH_COUNT[category as keyof typeof CONFIG.BUSH_COUNT];
     return Math.max(range.min, Math.min(range.max, calculatedCount));
-  };
+  }, [getScreenCategory]);
 
   // Generate random value within range
-  const randomBetween = (min: number, max: number) => {
+  const randomBetween = useCallback((min: number, max: number) => {
     return Math.random() * (max - min) + min;
-  };
+  }, []);
 
   // Generate random wiggle properties for each bush
-  const generateWiggleProperties = () => {
+  const generateWiggleProperties = useCallback(() => {
     const { wiggle } = CONFIG.ANIMATION;
     return {
       duration: randomBetween(wiggle.durationMin, wiggle.durationMax),
       amount: randomBetween(wiggle.amountMin, wiggle.amountMax),
     };
-  };
+  }, [randomBetween]);
 
   // Define position type
   interface BushPosition {
@@ -149,23 +149,23 @@ const LostBookDetail = () => {
   }
 
   // Generate random bush source
-  const getRandomBushSource = () => {
+  const getRandomBushSource = useCallback(() => {
     const randomIndex = Math.floor(Math.random() * CONFIG.BUSH_SOURCES.length);
     return CONFIG.BUSH_SOURCES[randomIndex];
-  };
+  }, []);
 
   // Generate random size with ratio maintained
-  const getRandomSize = (width: number) => {
+  const getRandomSize = useCallback((width: number) => {
     const category = getScreenCategory(width);
     const baseSize = CONFIG.BASE_SIZE[category as keyof typeof CONFIG.BASE_SIZE];
     
     const variation = CONFIG.SIZE_VARIATION;
     const size = baseSize + (Math.random() * variation * 2 - variation);
     return Math.max(baseSize - 30, Math.min(baseSize + 50, size));
-  };
+  }, [getScreenCategory]);
 
   // Calculate rotation to point toward screen center
-  const calculateRotationToCenter = (position: Omit<BushPosition, 'rotation'>) => {
+  const calculateRotationToCenter = useCallback((position: Omit<BushPosition, 'rotation'>) => {
     const centerX = 50;
     const centerY = 50;
     
@@ -193,10 +193,10 @@ const LostBookDetail = () => {
     const angleDeg = (angleRad * 180) / Math.PI;
     
     return angleDeg + 90;
-  };
+  }, []);
 
   // Generate bush position based on proportional distribution
-  const generateBushPosition = (index: number, total: number, width: number, height: number): BushPosition => {
+  const generateBushPosition = useCallback((index: number, total: number, width: number, height: number): BushPosition => {
     const category = getScreenCategory(width);
     const offset = CONFIG.OFFSET[category as keyof typeof CONFIG.OFFSET];
     
@@ -250,7 +250,7 @@ const LostBookDetail = () => {
       ...bushPosition,
       rotation
     };
-  };
+  }, [getScreenCategory, calculateRotationToCenter]);
 
   // Pre-calculate all bush data to ensure consistent values
   const bushesData = useMemo(() => {
@@ -264,7 +264,15 @@ const LostBookDetail = () => {
       });
     }
     return data;
-  }, [bushCount, screenDimensions.width, screenDimensions.height]);
+  }, [
+    bushCount,
+    screenDimensions.width,
+    screenDimensions.height,
+    generateBushPosition,
+    generateWiggleProperties,
+    getRandomBushSource,
+    getRandomSize
+  ]);
 
   // Handle resize with debouncing
   useEffect(() => {
@@ -297,7 +305,7 @@ const LostBookDetail = () => {
       clearTimeout(timeoutId);
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [calculateBushCount]);
 
   // Handle bush load
   const handleBushLoad = (index: number) => {
