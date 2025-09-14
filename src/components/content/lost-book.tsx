@@ -8,7 +8,7 @@ const LostBookContent: React.FC = () => {
       <div className={styles.coverContainer}>
         <div className={styles.coverWrapper}>
           <Cover
-            srcSmall="media/lost-book-cover-300x300.png"
+            srcSmall="media/lost-book-cover-250x250.png"
             src="media/lost-book-cover.png"
             alt="In the footsteps of a lost book hidden in the jungle temple"
           />
@@ -20,7 +20,7 @@ const LostBookContent: React.FC = () => {
             <div className={styles.tigerWrapper}>
               <img
                 className={styles.tiger}
-                src="media/tiger-512x512.png"
+                src="media/lost-book-tiger-512x512.png"
                 alt="tiger"
               />
             </div>

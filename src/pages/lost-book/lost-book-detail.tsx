@@ -5,11 +5,10 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 
 const CONFIG = {
   BUSH_SOURCES: [
-    "media/sunken-city-alga.png"
-    // Add more sources here as needed:
-    // "media/bush-variant-2.png",
-    // "media/bush-variant-3.png",
-    // "media/bush-variant-4.png"
+    "media/lost-book-bush-1.png",
+    "media/lost-book-bush-2.png",
+    "media/lost-book-bush-3.png",
+    "media/lost-book-bush-4.png",
   ],
   
   // Bush density per screen size (bushes per 1000px of perimeter)
@@ -23,20 +22,20 @@ const CONFIG = {
   
   // Bush count ranges
   BUSH_COUNT: {
-    mobile: { min: 35, max: 35 },
-    tablet: { min: 35, max: 45 },
-    desktop: { min: 35, max: 60 },
-    large: { min: 45, max: 80 },
-    ultrawide: { min: 60, max: 100 }
+    mobile: { min: 45, max: 45 },
+    tablet: { min: 45, max: 55 },
+    desktop: { min: 60, max: 80 },
+    large: { min: 75, max: 90 },
+    ultrawide: { min: 80, max: 100 }
   },
   
-  // Base bush sizes
+  // Base bush sizes (width - height will be calculated based on aspect ratio)
   BASE_SIZE: {
-    mobile: 100,
-    tablet: 130,
-    desktop: 180,
-    large: 180,
-    ultrawide: 200
+    mobile: 70,
+    tablet: 120,
+    desktop: 150,
+    large: 165,
+    ultrawide: 180
   },
   
   // Size variation (±pixels)
@@ -44,11 +43,11 @@ const CONFIG = {
   
   // Offset from screen edge (how hidden they are)
   OFFSET: {
-    mobile: 35,
-    tablet: 40,
-    desktop: 50,
-    large: 55,
-    ultrawide: 60
+    mobile: 50,
+    tablet: 70,
+    desktop: 105,
+    large: 105,
+    ultrawide: 105
   },
   
   // Animation settings
@@ -143,7 +142,7 @@ const LostBookDetail = () => {
 
   interface BushData {
     position: BushPosition;
-    size: number;
+    width: number;
     source: string;
     wiggle: WiggleProperties;
   }
@@ -154,14 +153,14 @@ const LostBookDetail = () => {
     return CONFIG.BUSH_SOURCES[randomIndex];
   }, []);
 
-  // Generate random size with ratio maintained
-  const getRandomSize = useCallback((width: number) => {
-    const category = getScreenCategory(width);
+  // Generate random width with ratio maintained
+  const getRandomWidth = useCallback((screenWidth: number) => {
+    const category = getScreenCategory(screenWidth);
     const baseSize = CONFIG.BASE_SIZE[category as keyof typeof CONFIG.BASE_SIZE];
     
     const variation = CONFIG.SIZE_VARIATION;
-    const size = baseSize + (Math.random() * variation * 2 - variation);
-    return Math.max(baseSize - 30, Math.min(baseSize + 50, size));
+    const width = baseSize + (Math.random() * variation * 2 - variation);
+    return Math.max(baseSize - 30, Math.min(baseSize + 50, width));
   }, [getScreenCategory]);
 
   // Calculate rotation to point toward screen center
@@ -258,7 +257,7 @@ const LostBookDetail = () => {
     for (let i = 0; i < bushCount; i++) {
       data.push({
         position: generateBushPosition(i, bushCount, screenDimensions.width, screenDimensions.height),
-        size: getRandomSize(screenDimensions.width),
+        width: getRandomWidth(screenDimensions.width),  // Changed from size to width
         source: getRandomBushSource(),
         wiggle: generateWiggleProperties() // Generate random wiggle properties for each bush
       });
@@ -271,7 +270,7 @@ const LostBookDetail = () => {
     generateBushPosition,
     generateWiggleProperties,
     getRandomBushSource,
-    getRandomSize
+    getRandomWidth  // Changed from getRandomSize
   ]);
 
   // Handle resize with debouncing
@@ -323,8 +322,8 @@ const LostBookDetail = () => {
         left: bushData.position.left,
         right: bushData.position.right,
         bottom: bushData.position.bottom,
-        width: `${bushData.size}px`,
-        height: `${bushData.size}px`,
+        width: `${bushData.width}px`,  // Set only width
+        height: 'auto',  // Let height be calculated automatically to maintain aspect ratio
         ['--rotation' as any]: `${bushData.position.rotation}deg`,
         // RANDOMIZED WIGGLE ANIMATION PROPERTIES:
         // Each bush gets its own unique wiggle characteristics

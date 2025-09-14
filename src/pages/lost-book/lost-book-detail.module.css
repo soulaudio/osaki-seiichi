@@ -10,7 +10,7 @@
 .container {
   height: 100vh;
   width: 100%;
-  padding: 145px 155px;
+  padding: 230px 155px;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none;
@@ -131,7 +131,7 @@
 
 @media (max-width: 768px) {
   .container {
-    padding: 125px 115px;
+    padding: 185px 115px;
   }
   
   .backContainer {
