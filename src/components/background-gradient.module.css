@@ -19,47 +19,37 @@
 
 .grainOverlay {
   position: fixed;
-  inset: 0;
-  z-index: 1;
   pointer-events: none;
-  opacity: 0.5;
-  mix-blend-mode: soft-light;
-  overflow: hidden;
+  z-index: 1;
+  
+  animation: grainDrift infinite linear;
+  
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  
+  will-change: transform;
 }
 
-.grainTexture {
-  position: absolute;
-  top: -400%;
-  left: -400%;
-  right: -400%;
-  bottom: -400%;
-  width: 800%;
-  height: 800%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='discrete' tableValues='0 1'/%3E%3CfeFuncG type='discrete' tableValues='0 1'/%3E%3CfeFuncB type='discrete' tableValues='0 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-  filter: contrast(500%) brightness(100%);
-  animation: circularMotion 2000s linear infinite;
-  opacity: 0.9;
-}
-
-@keyframes circularMotion {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
+@keyframes grainDrift {
+  0% { 
+    transform: translate3d(0, 0, 0); 
   }
-  25% {
-    transform: translate(1%, 1%) rotate(90deg);
+  25% { 
+    transform: translate3d(-2%, -1%, 0); 
   }
-  50% {
-    transform: translate(0, 2%) rotate(180deg);
+  50% { 
+    transform: translate3d(-1%, -3%, 0); 
   }
-  75% {
-    transform: translate(-1%, 1%) rotate(270deg);
+  75% { 
+    transform: translate3d(-3%, -2%, 0); 
   }
-  100% {
-    transform: translate(0, 0) rotate(360deg);
+  100% { 
+    transform: translate3d(0, 0, 0); 
   }
 }
-
 
 .transitionSection {
   display: flex;
@@ -71,4 +61,32 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+}
+
+/* Accessibility: Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .grainOverlay {
+    animation: none !important;
+    /* Keep grain but make it static */
+    transform: translate3d(-1%, -1%, 0) !important;
+  }
+}
+
+/* Safari-specific optimizations */
+@supports (-webkit-touch-callout: none) {
+  .grainOverlay {
+    /* Additional Safari performance optimizations */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+  }
+}
+
+/* High DPI display adjustments */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .grainOverlay {
+    /* Slightly reduce grain size on high-DPI displays for better visual quality */
+    background-size: 150px 150px;
+  }
 }
