@@ -11,6 +11,14 @@ const CONFIG = {
     "media/lost-book-bush-4.png",
   ],
   
+  // Border configuration - toggle which borders should have bushes
+  BORDERS: {
+    top: false,
+    right: true,
+    bottom: true,
+    left: true
+  },
+  
   // Bush density per screen size (bushes per 1000px of perimeter)
   DENSITY: {
     mobile: 1.8,      // More bushes on mobile
@@ -94,23 +102,36 @@ const LostBookDetail = () => {
     return 'ultrawide';
   }, []);
 
-  // Calculate bush count based on screen proportions
+  // Calculate active perimeter based on enabled borders
+  const calculateActivePerimeter = useCallback((width: number, height: number) => {
+    let totalPerimeter = 0;
+    
+    if (CONFIG.BORDERS.top) totalPerimeter += width;
+    if (CONFIG.BORDERS.right) totalPerimeter += height;
+    if (CONFIG.BORDERS.bottom) totalPerimeter += width;
+    if (CONFIG.BORDERS.left) totalPerimeter += height;
+    
+    return totalPerimeter;
+  }, []);
+
+  // Calculate bush count based on active borders and screen proportions
   const calculateBushCount = useCallback((width: number, height: number) => {
     const category = getScreenCategory(width);
     
-    // Calculate perimeter proportionally
-    const topBottom = width * 2;
-    const leftRight = height * 2;
-    const totalPerimeter = topBottom + leftRight;
+    // Calculate perimeter only for active borders
+    const activePerimeter = calculateActivePerimeter(width, height);
+    
+    // If no borders are active, return 0
+    if (activePerimeter === 0) return 0;
     
     // Calculate density-based bush count
     const density = CONFIG.DENSITY[category as keyof typeof CONFIG.DENSITY];
-    const calculatedCount = Math.round((totalPerimeter / 1000) * density);
+    const calculatedCount = Math.round((activePerimeter / 1000) * density);
     
     // Apply min/max constraints
     const range = CONFIG.BUSH_COUNT[category as keyof typeof CONFIG.BUSH_COUNT];
     return Math.max(range.min, Math.min(range.max, calculatedCount));
-  }, [getScreenCategory]);
+  }, [getScreenCategory, calculateActivePerimeter]);
 
   // Generate random value within range
   const randomBetween = useCallback((min: number, max: number) => {
@@ -194,52 +215,88 @@ const LostBookDetail = () => {
     return angleDeg + 90;
   }, []);
 
-  // Generate bush position based on proportional distribution
+  // Generate bush position based on proportional distribution across active borders
   const generateBushPosition = useCallback((index: number, total: number, width: number, height: number): BushPosition => {
     const category = getScreenCategory(width);
     const offset = CONFIG.OFFSET[category as keyof typeof CONFIG.OFFSET];
     
-    // Calculate proportional distribution
-    const topBottomLength = width * 2;
-    const leftRightLength = height * 2;
-    const totalPerimeter = topBottomLength + leftRightLength;
+    // Build array of active border segments with their lengths
+    const activeSegments: Array<{ border: 'top' | 'right' | 'bottom' | 'left', length: number }> = [];
     
-    // Calculate position along total perimeter
-    const step = totalPerimeter / total;
-    const currentPos = (step * index) % totalPerimeter;
+    if (CONFIG.BORDERS.top) activeSegments.push({ border: 'top', length: width });
+    if (CONFIG.BORDERS.right) activeSegments.push({ border: 'right', length: height });
+    if (CONFIG.BORDERS.bottom) activeSegments.push({ border: 'bottom', length: width });
+    if (CONFIG.BORDERS.left) activeSegments.push({ border: 'left', length: height });
     
+    // If no active segments, return center position (fallback)
+    if (activeSegments.length === 0) {
+      return {
+        top: '50%',
+        left: '50%',
+        rotation: 0
+      };
+    }
+    
+    // Calculate total active perimeter
+    const totalActivePerimeter = activeSegments.reduce((sum, segment) => sum + segment.length, 0);
+    
+    // Calculate position along total active perimeter
+    const step = totalActivePerimeter / total;
+    let currentPos = (step * index) % totalActivePerimeter;
+    
+    // Find which segment this bush belongs to
     let bushPosition: Omit<BushPosition, 'rotation'>;
+    let accumulatedLength = 0;
     
-    if (currentPos < width) {
-      // Top edge
-      const percentage = (currentPos / width) * 100;
+    for (const segment of activeSegments) {
+      if (currentPos >= accumulatedLength && currentPos < accumulatedLength + segment.length) {
+        const positionInSegment = currentPos - accumulatedLength;
+        
+        switch (segment.border) {
+          case 'top':
+            const topPercentage = (positionInSegment / segment.length) * 100;
+            bushPosition = {
+              top: `-${offset}px`,
+              left: `${topPercentage}%`
+            };
+            break;
+            
+          case 'right':
+            const rightPercentage = (positionInSegment / segment.length) * 100;
+            bushPosition = {
+              top: `${rightPercentage}%`,
+              right: `-${offset}px`
+            };
+            break;
+            
+          case 'bottom':
+            // Bottom edge (right to left)
+            const bottomPercentage = 100 - (positionInSegment / segment.length) * 100;
+            bushPosition = {
+              bottom: `-${offset}px`,
+              left: `${bottomPercentage}%`
+            };
+            break;
+            
+          case 'left':
+            // Left edge (bottom to top)
+            const leftPercentage = 100 - (positionInSegment / segment.length) * 100;
+            bushPosition = {
+              top: `${leftPercentage}%`,
+              left: `-${offset}px`
+            };
+            break;
+        }
+        break;
+      }
+      accumulatedLength += segment.length;
+    }
+    
+    // Fallback if no position was set
+    if (!bushPosition!) {
       bushPosition = {
-        top: `-${offset}px`,
-        left: `${percentage}%`
-      };
-    } else if (currentPos < width + height) {
-      // Right edge
-      const rightPos = currentPos - width;
-      const percentage = (rightPos / height) * 100;
-      bushPosition = {
-        top: `${percentage}%`,
-        right: `-${offset}px`
-      };
-    } else if (currentPos < width * 2 + height) {
-      // Bottom edge (right to left)
-      const bottomPos = currentPos - width - height;
-      const percentage = 100 - (bottomPos / width) * 100;
-      bushPosition = {
-        bottom: `-${offset}px`,
-        left: `${percentage}%`
-      };
-    } else {
-      // Left edge (bottom to top)
-      const leftPos = currentPos - width * 2 - height;
-      const percentage = 100 - (leftPos / height) * 100;
-      bushPosition = {
-        top: `${percentage}%`,
-        left: `-${offset}px`
+        top: '50%',
+        left: '50%'
       };
     }
     
@@ -257,9 +314,9 @@ const LostBookDetail = () => {
     for (let i = 0; i < bushCount; i++) {
       data.push({
         position: generateBushPosition(i, bushCount, screenDimensions.width, screenDimensions.height),
-        width: getRandomWidth(screenDimensions.width),  // Changed from size to width
+        width: getRandomWidth(screenDimensions.width),
         source: getRandomBushSource(),
-        wiggle: generateWiggleProperties() // Generate random wiggle properties for each bush
+        wiggle: generateWiggleProperties()
       });
     }
     return data;
@@ -270,7 +327,7 @@ const LostBookDetail = () => {
     generateBushPosition,
     generateWiggleProperties,
     getRandomBushSource,
-    getRandomWidth  // Changed from getRandomSize
+    getRandomWidth
   ]);
 
   // Handle resize with debouncing
@@ -322,14 +379,12 @@ const LostBookDetail = () => {
         left: bushData.position.left,
         right: bushData.position.right,
         bottom: bushData.position.bottom,
-        width: `${bushData.width}px`,  // Set only width
-        height: 'auto',  // Let height be calculated automatically to maintain aspect ratio
+        width: `${bushData.width}px`,
+        height: 'auto',
         ['--rotation' as any]: `${bushData.position.rotation}deg`,
-        // RANDOMIZED WIGGLE ANIMATION PROPERTIES:
-        // Each bush gets its own unique wiggle characteristics
         ['--wiggle-duration' as any]: `${bushData.wiggle.duration}s`,
         ['--wiggle-amount' as any]: `${bushData.wiggle.amount}deg`,
-        animationDuration: `${bushData.wiggle.duration}s`, // Individual duration
+        animationDuration: `${bushData.wiggle.duration}s`,
         opacity: isLoaded ? 1 : 0,
         transition: `opacity ${CONFIG.ANIMATION.fadeInDuration}s ease-in-out`,
         transformOrigin: 'center',
@@ -338,13 +393,13 @@ const LostBookDetail = () => {
       
       return (
         <img
-          key={`bush-${i}-${screenDimensions.width}-${screenDimensions.height}`} // Force re-render on resize
+          key={`bush-${i}-${screenDimensions.width}-${screenDimensions.height}`}
           className={styles.bush}
           style={style}
           src={bushData.source}
           alt={`bush-${i + 1}`}
           onLoad={() => handleBushLoad(i)}
-          onError={() => handleBushLoad(i)} // Also fade in on error to prevent hanging
+          onError={() => handleBushLoad(i)}
         />
       );
     });

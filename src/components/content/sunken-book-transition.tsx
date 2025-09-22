@@ -18,7 +18,7 @@ const SunkenBookTransition: React.FC = () => {
         as creatures screamed at him.
         The boy managed to lose them.
         Thinking it was over, he felt relief.
-        But then suddenly…
+        &nbsp;<b>But then suddenly…</b>
         <br />
         <br />
         ... he noticed pain in his legs

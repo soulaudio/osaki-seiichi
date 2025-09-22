@@ -20,7 +20,7 @@ const LostBookContent: React.FC = () => {
             <div className={styles.tigerWrapper}>
               <img
                 className={styles.tiger}
-                src="media/lost-book-tiger-512x512.png"
+                src="media/lost-book-tiger.png"
                 alt="tiger"
               />
             </div>
@@ -30,9 +30,8 @@ const LostBookContent: React.FC = () => {
       
       <div className={styles.eerieTextContainer}>
         <span className={styles.eerieText}>
-          entangled by vines and leaves,
-          <br /> followed - but not scared
-          <br />~ lost with my companion
+          entangled in liana vines, humid air
+          <br />&nbsp; ~ scorching sun, venturing in the footsteps of a lost someone
         </span>
       </div>
     </div>
