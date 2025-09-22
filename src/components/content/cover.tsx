@@ -1,5 +1,7 @@
-// Cover.tsx
-import { useState, useCallback } from "react";
+import React from "react";
+import { useModal } from "../../contexts/modal-context";
+import { ImageModal } from "../image-modal";
+import imageModalStyles from "../image-modal.module.css";
 import styles from "./cover.module.css";
 
 type CoverProps = {
@@ -9,16 +11,18 @@ type CoverProps = {
 };
 
 const Cover: React.FC<CoverProps> = ({ srcSmall, src, alt }) => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [isClosing, setIsClosing] = useState<boolean>(false);
+  const { openModal, closeModal } = useModal();
 
-  const handleClose = useCallback(() => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setOpenModal(false);
-      setIsClosing(false);
-    }, 300);
-  }, []);
+  const handleImageClick = () => {
+    openModal(
+      <ImageModal src={src} alt={alt} onClose={closeModal} />,
+      {
+        closeOnOverlayClick: true,
+        closeOnEscape: true,
+        overlayClassName: imageModalStyles.imageModalOverlay
+      }
+    );
+  };
 
   return (
     <div className={styles.container}>
@@ -28,28 +32,9 @@ const Cover: React.FC<CoverProps> = ({ srcSmall, src, alt }) => {
         alt={alt}
         height="100%"
         width="100%"
-        onClick={() => setOpenModal(true)}
+        onClick={handleImageClick}
         className={styles.coverImage}
       />
-
-      {openModal && (
-        <div
-          className={`${styles.modalOverlay} ${
-            isClosing ? styles.fadeOut : ""
-          }`}
-          onClick={handleClose}
-        >
-          <div className={styles.modalContent}>
-            <img
-              draggable={false}
-              src={src}
-              alt={alt}
-              className={styles.modalImage}
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };

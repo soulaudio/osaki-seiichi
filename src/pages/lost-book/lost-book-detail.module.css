@@ -51,7 +51,7 @@
   max-width: 40px;
   color: rgb(194, 209, 214);
   cursor: pointer;
-  z-index: 1000;
+  z-index: 100;
   pointer-events: auto;
   -webkit-user-drag: none;
   -khtml-user-drag: none;
