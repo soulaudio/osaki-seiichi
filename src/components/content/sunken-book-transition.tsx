@@ -21,16 +21,19 @@ const SunkenBookTransition: React.FC = () => {
         &nbsp;<b>But then suddenly…</b>
         <br />
         <br />
-        ... he noticed pain in his legs
-        and there were scales all over his body.
-        His feet turned into fins 
-        -he knew that he will soon become one of the creatures.
-        The boy anxiously rushed towards the shore.
-        As his head peaked above the water
-        he gasped for air but could not breathe.
-        He returned under the water
-        and started to engrave a message
-        into a stone which was the closest to shore.
+        ... he noticed pain in his legs and that there were scales all over his body. 
+        His feet turned into fins - he knew that he would soon become one of the creatures. 
+        The boy anxiously rushed towards the shore. 
+        As his head peaked above the water he gasped for air but could not breathe. 
+        He returned under the water and started to engrave a message into a stone which was the closest to shore. 
+        After he was done, he <span className={`${styles.redactedText} ${styles.markerStart} ${styles.redactedFlow1}`}>some things are not meant to be seen</span> <span className={`${styles.redactedText} ${styles.redactedFlow2}`}>look away</span> <span className={`${styles.redactedText} ${styles.markerEnd} ${styles.redactedFlow3}`}>before you learn things you shouldn't</span>.
+        <br />
+        <br />
+        No one knows where he is now; he might have returned to the strange creatures. 
+        While countless stories could connect to the sunken city, 
+        this is the one that carries it forward ~ 
+        After an old friend of the lost boy discovered the message near the shore, 
+        he chose to follow the almost ineligible writing. 
       </span>
     </div>
   );

@@ -411,62 +411,58 @@ const LostBookDetail = () => {
         <div className={styles.content}>
           <div className={styles.storyContainer}>
             <p>
-              While countless stories could connect to the sunken city, this is the one that carries it forward. 
-              After an old friend of the lost boy discovered the message near the shore, he chose to follow the footsteps of the ancient story.
-            </p>
-            <p>
               After a long rest, the old friend decided to get on the ship's deck. 
               The waves were quite strong that day. 
-              If his older brother wasn't there to support him he would have fallen. 
+              As he was walking across the deck he stumbled and his older brother caught him. Laughing it off, 
+              they've noticed a tropical island on the horizon. 
               They were slowly heading away from the beaming sun towards the island. 
               They docked the ship and moved into the shade created by the massive tropical jungle leaves. 
-              As they were carving a path through the thick jungle, they were welcomed by the various species living there. 
-              After a long travel, they were very exhausted and thirsty. 
+              As they were carving a path through the thick jungle, they were welcomed by the various animals 
+              and insects living there. They were very exhausted and thirsty. 
               In the distance they started to hear what sounded like a river. 
-              Surrounded by mist they realized they were in front of a big waterfall. 
-              The sun was setting quickly so they started to settle in for a rest.
+              Surrounded by mist they realized they were in front of a big waterfall.
             </p>
             <p>
+              The sun was setting quickly so they started to settle in for a rest. 
               The men were having a calm conversation over the fire. 
-              The night slowly started to get more eerie as they kept hearing distant noises getting closer. 
-              They started to feel a presence of something - a big creature appeared. 
-              Standing, so struck by fear that they couldn't move. 
-              Amidst the silence, the brothers heared a bow being drawn. 
-              The arrow struck the creature and it started running towards them. When they turned around, a human silhoutte appeared in the darkness, 
-              indicating them to follow him. 
+              The night slowly started to get more eerie since distant noises kept getting closer. 
+              There was a presence of something in the leaves - a big creature appeared. 
+              Struck by fear, they couldn't move. Amidst the silence, the brothers heard a bow being drawn. 
+              An arrow hit the creature and it started running towards them. 
+              As they turned around a human silhouette appeared in the darkness, indicating them to follow him. 
               After a long run, the men lost the creature as it was very wounded. 
               They thanked the man, but quickly realized that he does not understand them. 
-              Either way, they somehow managed to show him where they are headed and the man agreed to guide them. 
-              The men travelled for a couple of more hours and eventually just went to sleep under the night sky.
+              Either way, the brothers somehow managed to convince him to guide them. 
+              The men traveled for a couple of more hours and eventually just went to sleep under the night sky.
             </p>
             <p>
-              The group woke up to a beautiful sunrise. 
-              It was a very quiet morning, although they could hear some birds singing. 
-              A long journey awaited them, but they were very exicted since the nature was so untouched. 
-              Making their way alongside many shorelines with animals looking at them from the other side, 
-              felt as if the wildlife knew something that they didn't. 
-              The scenery changed from shorelines to hills and their destination started appearing in front of them. 
-              As soon as they were in front of an old wooden rope bridge, the guide turned around and ran away in to the jungle.
+             The group woke up to a beautiful sunrise. 
+             It was a very quiet morning, although there were some birds chirping in the distance. 
+             A long journey awaited them, but they were very excited since the nature was so untouched. 
+             Making their way alongside many shorelines with animals looking at them from the other side felt as 
+             if the wildlife knew something that they didn't. The scenery changed from shorelines to hills and their 
+             destination started appearing in front of them. 
+             As soon as they were in front of an old wooden rope bridge, 
+             the guide turned around and ran away into the jungle.
             </p>
             <p>
-              Confused by the sudden dissapearence of the guide, the brothers looked at the old, run-down swaying bridge. 
-              There were monkeys jumping from rope to rope, which made it move more. 
-              With no other way than to push forward they stepped on to the bridge. 
-              Determined to make it across they took slow and steady steps. 
-              Once their feet touched the ground on the other side a strange presence could be felt. 
-              Cold air started to breeze through the open gate of an ancient temple. 
-              Scared but eager to explore they walked in. 
-              Navigating through so many corridors felt almost like a maze. 
+              Confused by the sudden disappearance of the guide, 
+              the brothers looked at the old, run-down swaying bridge. 
+              There were monkeys jumping from rope to rope, which made it move even more. 
+              With no other way than to push forward, they stepped on to the bridge. 
+              Determined to make it across, they took slow and steady steps. 
+              Once their feet touched the ground on the other side a strange aura could be felt. 
+              Cold air started to breeze through the open gate of the ancient temple. 
+              Scared but eager to explore they walked in. Navigating through so many corridors felt almost like a maze. 
               With the labyrinth finally resolving into a single path, they headed straight towards a big room. 
               It was a captivating, mostly preserved piece of art. 
-              With small jade pillars standing on the floor, arranged in perfect symmetry and water flowing neatly from the top on to the walls. 
-              There was an altar in the center of the room.  
-              His brother accidently hit one of the jade pillars and it made a perfect bell-like tone. 
+              Small jade pillars emerging from the floor, arranged in perfect symmetry with water flowing neatly 
+              from the top onto the walls. There was an altar in the center of the room. 
+              One of the brothers accidently hit the jade pillar and it made a perfect bell-like tone. 
               Afterwards they've noticed that all the pillars produce different notes. 
-              They spotted glyphs on the walls which depicted the pillars but couldn't make sense of it for a long time since some parts were so worn. 
-              Randomly, after striking the pillars in the correct order (which made an enchanting melody) the altar slowly opened up. 
-              Inside of it was an ancient book. 
-              And then, they started going through the pages...     
+              They spotted glyphs on the walls which depicted the pillars but couldn't make sense of it for a long time since some 
+              parts were so worn. After finally striking the pillars in the correct order, (which made an enchanting melody) 
+              the altar slowly opened up. Inside of it was an ancient book. And then, they started going through the pages...   
             </p>
           </div>
           <div className={styles.albumTitleContainer}>
