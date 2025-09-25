@@ -26,7 +26,7 @@ const SunkenBookTransition: React.FC = () => {
         The boy anxiously rushed towards the shore. 
         As his head peaked above the water he gasped for air but could not breathe. 
         He returned under the water and started to engrave a message into a stone which was the closest to shore. 
-        After he was done, he <span className={`${styles.redactedText} ${styles.markerStart} ${styles.redactedFlow1}`}>some things are not meant to be seen</span> <span className={`${styles.redactedText} ${styles.redactedFlow2}`}>look away</span> <span className={`${styles.redactedText} ${styles.markerEnd} ${styles.redactedFlow3}`}>before you learn things you shouldn't</span>.
+        After he was done, he <span className={`${styles.scratchedText} ${styles.scratchedMedium}`}>██████████</span> <span className={`${styles.scratchedText} ${styles.scratchedSmall}`}>████████</span> <span className={`${styles.scratchedText} ${styles.scratchedLarge}`}>███████████████████</span> <span className={`${styles.scratchedText} ${styles.scratchedSmall}`}>████████████</span>.
         <br />
         <br />
         No one knows where he is now; he might have returned to the strange creatures. 

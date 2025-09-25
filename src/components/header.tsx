@@ -35,7 +35,7 @@ const Header: React.FC = () => {
         <div className={styles.rightSection}>
           <a
             draggable={false}
-            href="https://distrokid.com/hyperfollow/osakiseiichi/the-tale-of-a-long-forgotten-sunken-city"
+            href="https://distrokid.com/hyperfollow/osakiseiichi/in-the-footsteps-of-a-lost-book-hidden-in-the-jungle-temple"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.link}
