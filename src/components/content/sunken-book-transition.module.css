@@ -47,6 +47,8 @@
   font-family: inherit;
   letter-spacing: 0;
   background: transparent;
+
+  opacity: 0.3;
 }
 
 .scratchedText::before {
